@@ -37,16 +37,17 @@ def dictReverse():
     n=int(ins)
     
     myDict = {}
-    for i in range(n):
-        s=input('请输入第',str(i),'个值(键和值用空格分开)')
+    # for i in range(n):
+    i=0
+    while i<n:
+        s=input('请输入第'+str(i)+'个值(键和值用空格分开)')
         # 对非法输入进行异常处理
         con = s.split()
         if len(con) != 2:
             print('你输入的数据有误，刚刚输入的',s,'未加入字典！')
             continue
-
-        
         myDict[con[0]] = con[1]
+        i=i+1
 
     # 将字典转换成JSON字符串
     jEnco = json.JSONEncoder()
@@ -87,17 +88,43 @@ def qrGenerator():
     if not os.path.exists(filePath):
         print('你输入的路径不正确！')
         return
-
-    # 读取txt文件
-    ioText=open(filePath)
-    s = ioText.read()
-    ioText.close()
-    # 生成二维码
-    r = make(s)
+    
     # 处理一下输入的文件名
     saveFile = os.path.splitext(filePath)[0] + '.jpg'
-    # img.save(saveFile,'JPEG')
-    r.save(saveFile,'JPEG')
+    if os.path.splitext(filePath)[1]!='.txt':
+        print('你选择的文件不是*.txt文件！')
+        return
+
+
+    # 读取txt文件
+    try:
+        ioText=open(filePath)
+        s = ioText.read()
+    except:
+        print('无法读取文件，请检查文件是否被占用及拥有读取权限，文件编码是否正确等等')
+        return
+    finally:
+        ioText.close()
+
+    # 生成二维码
+
+    try:
+        # 制作二维码
+        r = make(s)
+    except:
+        print('二维码制作失败，请检查你的源文件')
+        return
+    
+    try:
+        # 保存前先检查文件是否存在，若是则删除
+        if os.path.exists(saveFile):
+            os.remove(saveFile)
+
+        # 保存二维码
+        r.save(saveFile,'JPEG')
+        print('已将二维码保存为',saveFile)
+    except:
+        print('无法保存二维码，请确认源文件目录下的同名.jpg文件是否被占用')
 
 
 
