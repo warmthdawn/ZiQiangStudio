@@ -38,11 +38,10 @@ def dictReverse():
     
     myDict = {}
     for i in range(n):
-        s=input('请输入第'+str(i)+'个值(键和值用空格分开)')
+        s=input('请输入第',str(i),'个值(键和值用空格分开)')
         # 对非法输入进行异常处理
-        try:
-            con = s.split()
-        except:
+        con = s.split()
+        if len(con) != 2:
             print('你输入的数据有误，刚刚输入的',s,'未加入字典！')
             continue
 
@@ -53,7 +52,7 @@ def dictReverse():
     jEnco = json.JSONEncoder()
     oldJson = jEnco.encode(myDict)
 
-    print('你输入的内容是'+oldJson)
+    print('你输入的字典JSON是',oldJson)
 
     # 下面进行字典反转
     newDict = {}
@@ -74,16 +73,20 @@ def dictReverse():
             newDict[item[1]] = item[0]
 
     newJson = jEnco.encode(newDict)
-    print('反转后的新列表为'+newJson)
+    print('反转后的新字典的JSON为',newJson)
 
+    # 输出类型
+    print('字典类型为',type(newDict).__name__)
+    print('JSON类型为',type(newJson).__name__)
 
 # 二维码生成
 def qrGenerator():
     filePath = input('请输入文件路径：')
 
     # 对非法输入进行异常处理
-    if os.path.exists(filePath):
+    if not os.path.exists(filePath):
         print('你输入的路径不正确！')
+        return
 
     # 读取txt文件
     ioText=open(filePath)
@@ -117,6 +120,10 @@ elif select=='4':
     qrGenerator()
 else:
     print('你选择的选项有误。')
+
+
+# 最后加个暂停吧
+input('请按回车键退出程序')
 
 
 
