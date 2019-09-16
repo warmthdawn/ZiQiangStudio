@@ -16,6 +16,7 @@ def b64Encode():
 def b64Decode():
     b64str = input("请输入base64字符串：")
     # 对非法输入做异常处理（憋说了，我知道我偷懒）
+    b64str = b64str.strip()
     try:
         b64bts = b64str.encode()
         bts = b64decode(b64bts,None,True)
@@ -29,12 +30,11 @@ def dictReverse():
 
     # 读取字典
     # 对非法输入做异常处理
-    try:
-        n = int(input("请输入键值对的个数："))
-    except:
+    ins = input("请输入键值对的个数：")
+    if not ins.isdigit():
         print('你输入的数据有误！')
         return
-
+    n=int(ins)
     
     myDict = {}
     for i in range(n):
@@ -121,9 +121,6 @@ elif select=='4':
 else:
     print('你选择的选项有误。')
 
-
-# 最后加个暂停吧
-input('请按回车键退出程序')
 
 
 
