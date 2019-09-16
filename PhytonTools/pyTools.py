@@ -15,6 +15,7 @@ def b64Encode():
 # base64解码
 def b64Decode():
     b64str = input("请输入base64字符串：")
+    # 对非法输入做异常处理（憋说了，我知道我偷懒）
     try:
         b64bts = b64str.encode()
         bts = b64decode(b64bts,None,True)
@@ -23,16 +24,29 @@ def b64Decode():
     except binascii.Error:
         print("你输入的字符有误，请检查")
 
-
 # 字典反转
 def dictReverse():
 
     # 读取字典
-    n = int(input("请输入键值对的个数："))
+    # 对非法输入做异常处理
+    try:
+        n = int(input("请输入键值对的个数："))
+    except:
+        print('你输入的数据有误！')
+        return
+
+    
     myDict = {}
     for i in range(n):
         s=input('请输入第'+str(i)+'个值(键和值用空格分开)')
-        con = s.split()
+        # 对非法输入进行异常处理
+        try:
+            con = s.split()
+        except:
+            print('你输入的数据有误，刚刚输入的',s,'未加入字典！')
+            return
+
+        
         myDict[con[0]] = con[1]
 
     # 将字典转换成JSON字符串
@@ -66,6 +80,11 @@ def dictReverse():
 # 二维码生成
 def qrGenerator():
     filePath = input('请输入文件路径：')
+
+    # 对非法输入进行异常处理
+    if os.path.exists(filePath):
+        print('你输入的路径不正确！')
+
     # 读取txt文件
     ioText=open(filePath)
     s = ioText.read()
