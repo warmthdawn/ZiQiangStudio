@@ -44,7 +44,7 @@ def dictReverse():
             con = s.split()
         except:
             print('你输入的数据有误，刚刚输入的',s,'未加入字典！')
-            return
+            continue
 
         
         myDict[con[0]] = con[1]
